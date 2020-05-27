@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/Lundalogik/differential-build-action/issues"
   },
-  "homepage": "https://github.com/Lundalogik/differential-build-action#readme"
+  "homepage": "https://github.com/Lundalogik/differential-build-action#readme",
+  "dependencies": {
+    "@actions/core": "^1.2.4",
+    "@actions/github": "^2.2.0"
+  }
 }
