@@ -1,0 +1,19 @@
+name: 'Differential Build Action'
+description: 'GitHub Action for setting some output variables depending on which files have been changed in a PR'
+author: 'Lime Technologies'
+inputs:
+  changed-files:
+    description: 'A JSON encoded array of all modified files, as output by https://github.com/lots0logs/gh-action-get-changed-files'
+    required: true
+outputs:
+  run_python:
+    description: 'Indicates that the python job should be run'
+  run_admin:
+    description: 'Indicates that the admin frontend job should be run'
+  run_import:
+    description: 'Indicates that the import frontend job should be run'
+  run_webclient:
+    description: 'Indicates that the webclient frontend job should be run'
+runs:
+  using: 'node12'
+  main: 'index.js'
