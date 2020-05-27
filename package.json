@@ -1,0 +1,20 @@
+{
+  "name": "differential-build-action",
+  "version": "1.0.0",
+  "description": "GitHub Action for setting some output variables depending on which files have been changed in a PR",
+  "author": "Lime Technologies",
+  "license": "Apache-2.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lundalogik/differential-build-action.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/Lundalogik/differential-build-action/issues"
+  },
+  "homepage": "https://github.com/Lundalogik/differential-build-action#readme"
+}
