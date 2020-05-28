@@ -2,8 +2,8 @@ name: 'Differential Build Action'
 description: 'GitHub Action for setting some output variables depending on which files have been changed in a PR'
 author: 'Lime Technologies'
 inputs:
-  changed-files:
-    description: 'A JSON encoded array of all modified files, as output by https://github.com/lots0logs/gh-action-get-changed-files'
+  githubToken:
+    description: 'The default repo access token'
     required: true
 outputs:
   run_python:
