@@ -14,13 +14,24 @@ async function run() {
 
     const filenames = files.map(file => file.filename);
 
+    console.log('Changed files:', JSON.stringify(filenames, null, 2));
+
     // If the workflows were updated, run everything!
-    const workflowsUpdated = !!filenames.find(file => file.startsWith('.github/workflows'));
+    const workflowsUpdated = !!filenames.find(file => file.startsWith('.github/workflows/'));
+
+    if (workflowsUpdated) {
+        console.log('Workflows updated, running everything!')
+    }
 
     const run_python = workflowsUpdated || !!filenames.find(file => !file.startsWith('frontend/'));
     const run_admin = workflowsUpdated || !!filenames.find(file => file.startsWith('frontend/admin/'));
     const run_import = workflowsUpdated || !!filenames.find(file => file.startsWith('frontend/import/'));
     const run_webclient = workflowsUpdated || !!filenames.find(file => file.startsWith('frontend/webclient/'));
+
+    console.log('run_python =', run_python);
+    console.log('run_admin =', run_admin);
+    console.log('run_import =', run_import);
+    console.log('run_webclient =', run_webclient);
 
     core.setOutput('run_python', `${run_python}`);
     core.setOutput('run_admin', `${run_admin}`);
