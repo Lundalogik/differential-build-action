@@ -12,6 +12,8 @@ async function run() {
         pull_number: github.context.payload.pull_request.number
     });
 
+    console.log('\n---\n', JSON.stringify(files, null, 2), '\n---\n');
+
     const filenames = files.map(file => file.filename);
 
     console.log('Changed files:', JSON.stringify(filenames, null, 2));
