@@ -7,16 +7,6 @@ async function run() {
     const octokit = new github.GitHub(token);
     let runEverything = false;
 
-    console.log(
-        '\n---\n',
-        JSON.stringify(
-            github.context.payload.pull_request.changed_files,
-            null,
-            2
-        ),
-        '\n---\n\n\n'
-    );
-
     let filenames = [];
 
     if (github.context.payload.pull_request.changed_files > 3000) {
@@ -36,8 +26,6 @@ async function run() {
             filenames.length < github.context.payload.pull_request.changed_files
         );
     }
-
-    console.log('Changed files:', JSON.stringify(filenames, null, 2));
 
     if (filenames.find((file) => file.startsWith('.github/workflows/'))) {
         console.log('Workflows updated, running everything!');
