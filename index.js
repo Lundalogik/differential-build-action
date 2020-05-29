@@ -5,30 +5,39 @@ const exec = require('@actions/exec');
 async function run() {
     const token = core.getInput('githubToken');
     const octokit = new github.GitHub(token);
+    let runEverything = false;
 
-    const { data: files } = await octokit.pulls.listFiles({
-        owner: github.context.payload.repository.owner.login,
-        repo: github.context.payload.repository.name,
-        pull_number: github.context.payload.pull_request.number
-    });
+    console.log('\n---\n', JSON.stringify(github.context.payload.pull_request.changed_files, null, 2), '\n---\n\n\n');
 
-    console.log('\n---\n', JSON.stringify(files, null, 2), '\n---\n');
+    let filenames = [];
 
-    const filenames = files.map(file => file.filename);
+    if (github.context.payload.pull_request.changed_files > 3000) {
+        console.log('More than 3000 files updated, running everything!');
+        runEverything = true;
+    } else {
+        do {
+            const { data: files } = await octokit.pulls.listFiles({
+                owner: github.context.payload.repository.owner.login,
+                repo: github.context.payload.repository.name,
+                pull_number: github.context.payload.pull_request.number,
+                per_page: 100
+            });
+            const paginatedFilenames = files.map(file => file.filename);
+            filenames = [...filenames, ...paginatedFilenames];
+        } while (filenames.length < github.context.payload.pull_request.changed_files)
+    }
 
     console.log('Changed files:', JSON.stringify(filenames, null, 2));
 
-    // If the workflows were updated, run everything!
-    const workflowsUpdated = !!filenames.find(file => file.startsWith('.github/workflows/'));
-
-    if (workflowsUpdated) {
-        console.log('Workflows updated, running everything!')
+    if (filenames.find(file => file.startsWith('.github/workflows/'))) {
+        console.log('Workflows updated, running everything!');
+        runEverything = true;
     }
 
-    const run_python = workflowsUpdated || !!filenames.find(file => !file.startsWith('frontend/'));
-    const run_admin = workflowsUpdated || !!filenames.find(file => file.startsWith('frontend/admin/'));
-    const run_importer = workflowsUpdated || !!filenames.find(file => file.startsWith('frontend/importer/'));
-    const run_webclient = workflowsUpdated || !!filenames.find(file => file.startsWith('frontend/webclient/'));
+    const run_python = runEverything || !!filenames.find(file => !file.startsWith('frontend/'));
+    const run_admin = runEverything || !!filenames.find(file => file.startsWith('frontend/admin/'));
+    const run_importer = runEverything || !!filenames.find(file => file.startsWith('frontend/importer/'));
+    const run_webclient = runEverything || !!filenames.find(file => file.startsWith('frontend/webclient/'));
 
     console.log('run_python =', run_python);
     console.log('run_admin =', run_admin);
