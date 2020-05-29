@@ -10,8 +10,8 @@ outputs:
     description: 'Indicates that the python job should be run'
   run_admin:
     description: 'Indicates that the admin frontend job should be run'
-  run_import:
-    description: 'Indicates that the import frontend job should be run'
+  run_importer:
+    description: 'Indicates that the importer frontend job should be run'
   run_webclient:
     description: 'Indicates that the webclient frontend job should be run'
 runs:

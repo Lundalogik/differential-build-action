@@ -25,17 +25,17 @@ async function run() {
 
     const run_python = workflowsUpdated || !!filenames.find(file => !file.startsWith('frontend/'));
     const run_admin = workflowsUpdated || !!filenames.find(file => file.startsWith('frontend/admin/'));
-    const run_import = workflowsUpdated || !!filenames.find(file => file.startsWith('frontend/import/'));
+    const run_importer = workflowsUpdated || !!filenames.find(file => file.startsWith('frontend/importer/'));
     const run_webclient = workflowsUpdated || !!filenames.find(file => file.startsWith('frontend/webclient/'));
 
     console.log('run_python =', run_python);
     console.log('run_admin =', run_admin);
-    console.log('run_import =', run_import);
+    console.log('run_importer =', run_importer);
     console.log('run_webclient =', run_webclient);
 
     core.setOutput('run_python', `${run_python}`);
     core.setOutput('run_admin', `${run_admin}`);
-    core.setOutput('run_import', `${run_import}`);
+    core.setOutput('run_importer', `${run_importer}`);
     core.setOutput('run_webclient', `${run_webclient}`);
 }
 
