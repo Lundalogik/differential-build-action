@@ -7,7 +7,15 @@ async function run() {
     const octokit = new github.GitHub(token);
     let runEverything = false;
 
-    console.log('\n---\n', JSON.stringify(github.context.payload.pull_request.changed_files, null, 2), '\n---\n\n\n');
+    console.log(
+        '\n---\n',
+        JSON.stringify(
+            github.context.payload.pull_request.changed_files,
+            null,
+            2
+        ),
+        '\n---\n\n\n'
+    );
 
     let filenames = [];
 
@@ -20,24 +28,34 @@ async function run() {
                 owner: github.context.payload.repository.owner.login,
                 repo: github.context.payload.repository.name,
                 pull_number: github.context.payload.pull_request.number,
-                per_page: 100
+                per_page: 100,
             });
-            const paginatedFilenames = files.map(file => file.filename);
+            const paginatedFilenames = files.map((file) => file.filename);
             filenames = [...filenames, ...paginatedFilenames];
-        } while (filenames.length < github.context.payload.pull_request.changed_files)
+        } while (
+            filenames.length < github.context.payload.pull_request.changed_files
+        );
     }
 
     console.log('Changed files:', JSON.stringify(filenames, null, 2));
 
-    if (filenames.find(file => file.startsWith('.github/workflows/'))) {
+    if (filenames.find((file) => file.startsWith('.github/workflows/'))) {
         console.log('Workflows updated, running everything!');
         runEverything = true;
     }
 
-    const run_python = runEverything || !!filenames.find(file => !file.startsWith('frontend/'));
-    const run_admin = runEverything || !!filenames.find(file => file.startsWith('frontend/admin/'));
-    const run_importer = runEverything || !!filenames.find(file => file.startsWith('frontend/importer/'));
-    const run_webclient = runEverything || !!filenames.find(file => file.startsWith('frontend/webclient/'));
+    const run_python =
+        runEverything ||
+        !!filenames.find((file) => !file.startsWith('frontend/'));
+    const run_admin =
+        runEverything ||
+        !!filenames.find((file) => file.startsWith('frontend/admin/'));
+    const run_importer =
+        runEverything ||
+        !!filenames.find((file) => file.startsWith('frontend/importer/'));
+    const run_webclient =
+        runEverything ||
+        !!filenames.find((file) => file.startsWith('frontend/webclient/'));
 
     console.log('run_python =', run_python);
     console.log('run_admin =', run_admin);
