@@ -4,7 +4,7 @@ const exec = require('@actions/exec');
 
 async function run() {
     const token = core.getInput('githubToken');
-    const octokit = new github.GitHub(token);
+    const octokit = github.getOctokit(token);
     let runEverything = false;
 
     let filenames = [];
