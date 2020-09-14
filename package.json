@@ -1,6 +1,6 @@
 {
   "name": "differential-build-action",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "GitHub Action for setting some output variables depending on which files have been changed in a PR",
   "author": "Lime Technologies",
   "license": "Apache-2.0",
