@@ -16,4 +16,4 @@ outputs:
     description: 'Indicates that the webclient frontend job should be run'
 runs:
   using: 'node12'
-  main: 'index.js'
+  main: 'dist/index.js'

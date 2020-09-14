@@ -6,6 +6,7 @@
   "license": "Apache-2.0",
   "main": "index.js",
   "scripts": {
+    "build": "ncc build index.js",
     "lint": "npx eslint -c eslint.js '*.js'",
     "lint:fix": "npx eslint --fix -c eslint.js '*.js'",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -25,6 +26,7 @@
     "@actions/github": "^2.2.0"
   },
   "devDependencies": {
+    "@vercel/ncc": "^0.24.0",
     "eslint": "^7.1.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.3",
