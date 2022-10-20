@@ -15,5 +15,5 @@ outputs:
   run_webclient:
     description: 'Indicates that the webclient frontend job should be run'
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'dist/index.js'
