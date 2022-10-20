@@ -41,7 +41,12 @@ async function run() {
 
     const run_python =
         runEverything ||
-        !!filenames.find((file) => !file.startsWith('frontend/'));
+        !!filenames.find(
+            (file) =>
+                !file.startsWith('frontend/') &&
+                file !== 'package.json' &&
+                file !== 'package-lock.json'
+        );
     const run_admin =
         runEverything ||
         !!filenames.find((file) => file.startsWith('frontend/admin/'));

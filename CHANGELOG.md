@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/Lundalogik/differential-build-action/compare/v2.0.6...v2.1.0) (2022-10-20)
+
+
+### Features
+
+* `package.json` and `package-lock.json` in repo root does not trigger python run ([755c588](https://github.com/Lundalogik/differential-build-action/commit/755c5881b899a62c8bedf08735b874f4fa766bba))
+
 ## [2.0.6](https://github.com/Lundalogik/differential-build-action/compare/v2.0.5...v2.0.6) (2020-10-06)
 
 
