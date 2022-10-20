@@ -1,6 +1,7 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 const exec = require('@actions/exec');
+const filematcher = require('./filematcher');
 
 async function run() {
     const token = core.getInput('githubToken');
@@ -32,33 +33,25 @@ async function run() {
         runEverything = true;
     }
 
-    const run_python =
-        runEverything ||
-        !!filenames.find(
-            (file) =>
-                !file.startsWith('frontend/') &&
-                file !== 'package.json' &&
-                file !== 'package-lock.json'
-        );
-    const run_admin =
-        runEverything ||
-        !!filenames.find((file) => file.startsWith('frontend/admin/'));
-    const run_importer =
-        runEverything ||
-        !!filenames.find((file) => file.startsWith('frontend/importer/'));
-    const run_webclient =
-        runEverything ||
-        !!filenames.find((file) => file.startsWith('frontend/webclient/'));
+    if (runEverything) {
+        core.setOutput('run_python', 'true');
+        core.setOutput('run_admin', 'true');
+        core.setOutput('run_importer', 'true');
+        core.setOutput('run_webclient', 'true');
+        return;
+    }
 
-    console.log('run_python =', run_python);
-    console.log('run_admin =', run_admin);
-    console.log('run_importer =', run_importer);
-    console.log('run_webclient =', run_webclient);
+    const run = filematcher(filenames);
 
-    core.setOutput('run_python', `${run_python}`);
-    core.setOutput('run_admin', `${run_admin}`);
-    core.setOutput('run_importer', `${run_importer}`);
-    core.setOutput('run_webclient', `${run_webclient}`);
+    console.log('run_python =', run.python);
+    console.log('run_admin =', run.admin);
+    console.log('run_importer =', run.importer);
+    console.log('run_webclient =', run.webclient);
+
+    core.setOutput('run_python', `${run.python}`);
+    core.setOutput('run_admin', `${run.admin}`);
+    core.setOutput('run_importer', `${run.importer}`);
+    core.setOutput('run_webclient', `${run.webclient}`);
 }
 
 run();
