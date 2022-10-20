@@ -34,6 +34,7 @@ jobs:
         node-version: "${{ steps.nvm.outputs.NVMRC }}"
     - run: node -v && npm -v
     - run: npm ci
+    - run: npm run build
     - run: npm test
 
   commitlint:
