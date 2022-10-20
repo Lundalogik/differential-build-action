@@ -1,3 +1,15 @@
+# [2.2.0](https://github.com/Lundalogik/differential-build-action/compare/v2.1.0...v2.2.0) (2022-10-20)
+
+
+### Bug Fixes
+
+* trigger runs correctly ([0581630](https://github.com/Lundalogik/differential-build-action/commit/0581630d411885be071a57daf5b0526c68beb95a))
+
+
+### Features
+
+* update to run action in node 16 instead of node 12 ([4457e76](https://github.com/Lundalogik/differential-build-action/commit/4457e765cf93b5f7c904ab241a9897f1c96a9e3d))
+
 # [2.1.0](https://github.com/Lundalogik/differential-build-action/compare/v2.0.6...v2.1.0) (2022-10-20)
 
 
