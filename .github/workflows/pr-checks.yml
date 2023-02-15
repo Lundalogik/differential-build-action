@@ -8,16 +8,6 @@ concurrency:
 
 jobs:
 
-  # The following job is just a workaround, because I haven't figured
-  # out how to make checks that are required by the sub-org _not_ required in
-  # a given repo.
-  # /Ads
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo 'this is a dummy'
-
   lint:
     name: Lint
     runs-on: ubuntu-latest
@@ -35,6 +25,23 @@ jobs:
     - run: npm ci
     - run: npm run lint
 
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Read .nvmrc
+      run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
+      id: nvm
+    - uses: actions/setup-node@v2
+      with:
+        node-version: "${{ steps.nvm.outputs.NVMRC }}"
+    - run: node -v && npm -v
+    - run: npm ci
+    - run: npm run build
+
   test:
     name: Test
     runs-on: ubuntu-latest
@@ -50,7 +57,6 @@ jobs:
         node-version: "${{ steps.nvm.outputs.NVMRC }}"
     - run: node -v && npm -v
     - run: npm ci
-    - run: npm run build
     - run: npm test
 
   commitlint:
