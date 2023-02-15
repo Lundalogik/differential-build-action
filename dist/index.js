@@ -11027,7 +11027,7 @@ async function run() {
         runEverything = true;
     } else {
         do {
-            const { data: files } = await octokit.pulls.listFiles({
+            const { data: files } = await octokit.rest.pulls.listFiles({
                 owner: github.context.payload.repository.owner.login,
                 repo: github.context.payload.repository.name,
                 pull_number: github.context.payload.pull_request.number,

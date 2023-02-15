@@ -1,3 +1,10 @@
+## [2.3.1](https://github.com/Lundalogik/differential-build-action/compare/v2.3.0...v2.3.1) (2023-02-15)
+
+
+### Bug Fixes
+
+* v2.3.0 is broken, this version should fix the problem ([0a1be8d](https://github.com/Lundalogik/differential-build-action/commit/0a1be8dcb3d56da7606caef7a5c3e4977a560b3b))
+
 # [2.3.0](https://github.com/Lundalogik/differential-build-action/compare/v2.2.0...v2.3.0) (2023-02-15)
 
 
