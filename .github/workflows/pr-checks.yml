@@ -1,6 +1,11 @@
 name: Pull Request Checks
 on: [pull_request]
 
+concurrency:
+  # Only allow one active run of this workflow, per PR.
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
 
   # The following job is just a workaround, because I haven't figured
