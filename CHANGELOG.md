@@ -1,3 +1,10 @@
+# [2.3.0](https://github.com/Lundalogik/differential-build-action/compare/v2.2.0...v2.3.0) (2023-02-15)
+
+
+### Features
+
+* add support for new frontend `new-webclient` ([a642fd5](https://github.com/Lundalogik/differential-build-action/commit/a642fd53862ca38a8da37cbd45dc190af112f853))
+
 # [2.2.0](https://github.com/Lundalogik/differential-build-action/compare/v2.1.0...v2.2.0) (2022-10-20)
 
 
