@@ -10,19 +10,28 @@ jobs:
     name: Run Semantic Release
     runs-on: ubuntu-latest
     steps:
-      - name: Git checkout latest
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
-          token: ${{ secrets.CREATE_RELEASE }}
+          persist-credentials: false
+      - name: Read .nvmrc
+        run: echo "NVMRC=$(cat .nvmrc)" >> $GITHUB_OUTPUT
+        id: nvm
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "${{ steps.nvm.outputs.NVMRC }}"
+      - run: node -v && npm -v
       - run: npm ci
       - run: npm run build
       - name: Semantic Release
-        id: semantic
-        uses: cycjimmy/semantic-release-action@master
+        uses: cycjimmy/semantic-release-action@v3
+        id: semantic # Need an `id` for output variables
         with:
-          semantic_version: 17.0.4
+          semantic_version: 19.0.5
           extra_plugins: |
-            @semantic-release/changelog@5.0.1
-            @semantic-release/git@9.0.0
+            @semantic-release/changelog@6.0.2
+            @semantic-release/git@10.0.1
+            conventional-changelog-conventionalcommits@5.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.CREATE_RELEASE }}
+          GH_USERNAME: lime-ci
+          CI: true
