@@ -1,5 +1,5 @@
 name: Pull Request Checks
-on: [pull_request]
+on: [pull_request, merge_group]
 
 concurrency:
   # Only allow one active run of this workflow, per PR.
@@ -7,18 +7,15 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-
   lint:
     name: Lint
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Read .nvmrc
-      run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
+      run: echo "NVMRC=$(cat .nvmrc)" >> $GITHUB_OUTPUT
       id: nvm
-    - uses: actions/setup-node@v2
+    - uses: actions/setup-node@v3
       with:
         node-version: "${{ steps.nvm.outputs.NVMRC }}"
     - run: node -v && npm -v
@@ -28,14 +25,12 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Read .nvmrc
-      run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
+      run: echo "NVMRC=$(cat .nvmrc)" >> $GITHUB_OUTPUT
       id: nvm
-    - uses: actions/setup-node@v2
+    - uses: actions/setup-node@v3
       with:
         node-version: "${{ steps.nvm.outputs.NVMRC }}"
     - run: node -v && npm -v
@@ -45,36 +40,50 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Read .nvmrc
-      run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
+      run: echo "NVMRC=$(cat .nvmrc)" >> $GITHUB_OUTPUT
       id: nvm
-    - uses: actions/setup-node@v2
+    - uses: actions/setup-node@v3
       with:
         node-version: "${{ steps.nvm.outputs.NVMRC }}"
     - run: node -v && npm -v
     - run: npm ci
-    - run: npm test
+    - run: npm test --if-present
 
   commitlint:
     name: Commitlint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-        if: github.actor != 'dependabot[bot]'
-        with:
-          fetch-depth: 0
-      - uses: wagoid/commitlint-github-action@v2
-        if: github.actor != 'dependabot[bot]'
+      - uses: actions/checkout@v3
+        if: github.actor != 'dependabot[bot]' && github.event_name != 'merge_group'
+      - uses: wagoid/commitlint-github-action@v5
+        if: github.actor != 'dependabot[bot]' && github.event_name != 'merge_group'
 
   autosquash:
     name: Block Autosquash Commits
     runs-on: ubuntu-latest
     steps:
       - name: Block Autosquash Commits
-        uses: xt0rted/block-autosquash-commits-action@v2.0.0
+        if:  github.event_name != 'merge_group'
+        uses: xt0rted/block-autosquash-commits-action@v2.2.0
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+  autoapprove:
+    needs: [lint, build, test, autosquash]
+    # Only run job if the PR comes from a repo owned by Lime and the PR was
+    # created by Dependabot.
+    if: github.event.pull_request.head.repo.owner.login == 'Lundalogik' && github.actor == 'dependabot[bot]' && github.event_name != 'merge_group'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enable Automerge
+        run: gh pr merge --auto --rebase "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ secrets.ENABLE_AUTOMERGE }}
+      - name: Autoapprove
+        uses: hmarr/auto-approve-action@v2.1.0
+        with:
+          github-token: ${{ secrets.APPROVE_AUTOMATIC_PRS }}
