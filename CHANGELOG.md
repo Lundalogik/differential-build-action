@@ -1,3 +1,10 @@
+## [2.3.2](https://github.com/Lundalogik/differential-build-action/compare/v2.3.1...v2.3.2) (2023-10-24)
+
+
+### Bug Fixes
+
+* update vulnerable dependencies ([18c4537](https://github.com/Lundalogik/differential-build-action/commit/18c4537ec25dbffa5f7a58f36ba37a35c685718e))
+
 ## [2.3.1](https://github.com/Lundalogik/differential-build-action/compare/v2.3.0...v2.3.1) (2023-02-15)
 
 
