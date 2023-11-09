@@ -1,3 +1,16 @@
+# [3.0.0](https://github.com/Lundalogik/differential-build-action/compare/v2.3.2...v3.0.0) (2023-11-09)
+
+
+### Features
+
+* remove support for `new-webclient` ([d7e3130](https://github.com/Lundalogik/differential-build-action/commit/d7e3130e3ef871ec696f818bb1ce6a872f009fe1))
+
+
+### BREAKING CHANGES
+
+* Support for the frontend called `new-webclient`
+has been removed.
+
 ## [2.3.2](https://github.com/Lundalogik/differential-build-action/compare/v2.3.1...v2.3.2) (2023-10-24)
 
 
