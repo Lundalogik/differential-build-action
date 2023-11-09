@@ -38,7 +38,6 @@ async function run() {
         core.setOutput('run_admin', 'true');
         core.setOutput('run_importer', 'true');
         core.setOutput('run_webclient', 'true');
-        core.setOutput('run_new_webclient', 'true');
         return;
     }
 
@@ -48,13 +47,11 @@ async function run() {
     console.log('run_admin =', run.admin);
     console.log('run_importer =', run.importer);
     console.log('run_webclient =', run.webclient);
-    console.log('run_new_webclient =', run.newWebClient);
 
     core.setOutput('run_python', `${run.python}`);
     core.setOutput('run_admin', `${run.admin}`);
     core.setOutput('run_importer', `${run.importer}`);
     core.setOutput('run_webclient', `${run.webclient}`);
-    core.setOutput('run_new_webclient', `${run.newWebClient}`);
 }
 
 run();
