@@ -1,3 +1,10 @@
+## [3.0.1](https://github.com/Lundalogik/differential-build-action/compare/v3.0.0...v3.0.1) (2024-06-10)
+
+
+### Bug Fixes
+
+* replace use of deprecated node16 with node20 ([d1ad55a](https://github.com/Lundalogik/differential-build-action/commit/d1ad55af29c8203d7004f42d3158820b6eaf0176)), closes [#94](https://github.com/Lundalogik/differential-build-action/issues/94)
+
 # [3.0.0](https://github.com/Lundalogik/differential-build-action/compare/v2.3.2...v3.0.0) (2023-11-09)
 
 
